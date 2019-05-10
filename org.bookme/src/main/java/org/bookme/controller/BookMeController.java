@@ -1,7 +1,8 @@
 package org.bookme.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class BookMeController {
@@ -16,4 +17,19 @@ public class BookMeController {
         return "Greetings from Spring Boot!";
     }
 
+    @GetMapping("/login")
+    @ResponseBody
+    public ResponseEntity login(@RequestParam(name="name", required=true, defaultValue="Stranger") String name,
+                                @RequestParam(name="password", required=true, defaultValue="no password") String pwd) {
+        String userVal = "";
+        if(name.equals("Stranger"))
+            userVal += "Hello " + name;
+        if(pwd.equals("no password"))
+            userVal += " " + pwd;
+        if(userVal.equals(""))
+            userVal = "hello : "+ name;
+
+
+        return new ResponseEntity("login service ready, " + userVal, HttpStatus.OK);
+    }
 }
